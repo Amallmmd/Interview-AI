@@ -1,0 +1,17 @@
+streamlit
+langchain
+langchain-community
+langchain-openai
+openai
+python-dotenv
+# transformers
+chromadb
+# spacy
+faiss-cpu
+numpy
+pandas
+matplotlib
+PyPDF2
+pypdf
+nltk
+audio-recorder-streamlit

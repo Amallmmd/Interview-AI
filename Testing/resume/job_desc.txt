@@ -1,0 +1,17 @@
+As a Junior Machine Learning Engineer at our cutting-edge company, your role is crucial in developing the future of AI chatbots and Large Language Models (LLMs) like Llama2, with a special emphasis on integrating these innovations with WIX platforms. Your work will involve a deep dive into AWS services, Data ETL, GitHub for code collaboration, and the hands-on building of models, all while leveraging your strong quantitative and programming background. This role demands not only technical expertise but also a creative approach to problem-solving and code development. You will work in close partnership with the CTO, ensuring that your contributions leave a lasting impact on our AI-driven solutions. Additionally, your collaboration with front-end developers is key to weaving AI functionalities into WIX-based applications seamlessly, enhancing user experiences and pushing the boundaries of what our digital platforms can achieve.
+
+Myself Amal Muhammed. I'm a self taught software engineer. I'm also a computer science graduate. I learned the concepts of Data Science and did couple of projects in that.
+
+Develop, implement, and refine Python-based machine learning algorithms and data processing techniques, integrating advanced database management skills for efficient data handling. 
+Prepare and manage large datasets for modeling, leveraging database skills for data cleaning, preprocessing, and analysis to ensure optimal readiness for machine learning processes. 
+Create and maintain predictive models for a range of business applications, continuously evaluating and enhancing their performance based on data-driven insights. 
+Collaborate with data scientists and business stakeholders, translating complex business requirements into technical solutions, with a strong emphasis on database integration and data flow optimization. 
+Utilize Python libraries such as pandas, NumPy, scikit-learn, TensorFlow, and PyTorch, alongside database querying and management techniques, for data manipulation and model development. 
+Deploy scalable and maintainable machine learning models into production environments, using database skills to ensure data integrity and performance monitoring. 
+Stay current with the latest trends in machine learning, data engineering, and database technologies, applying best practices to improve data storage, retrieval, and processing methodologies. 
+Document processes, methodologies, and code, emphasizing database schemas and operations, and collaborate with the engineering team to uphold high-quality standards across the data pipeline. 
+Design and develop RESTful APIs using the Django Rest Framework, incorporating database interactions to serve data efficiently and interact with machine learning models. 
+Implement security measures and manage data access through APIs, employing robust database management practices for authentication, authorization, and data storage. 
+Optimize API and machine learning model performance, leveraging database optimization techniques for query efficiency, caching strategies, and real-time data processing. 
+Work closely with frontend developers and UI/UX designers, ensuring database-driven APIs meet client-side application requirements and provide a seamless user experience. 
+Continuously enhance database management and integration skills within the Django framework and REST API development to support advanced data-driven applications and services. 
