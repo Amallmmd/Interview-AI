@@ -17,6 +17,9 @@ import streamlit as st
 from audio_recorder_streamlit import audio_recorder
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 client = OpenAI()
 api_key = os.getenv("OPENAI_API_KEY")
 
@@ -56,7 +59,7 @@ def jd_retrieval(jd):
         jd_splitted,embeddings,
         collection_metadata={"hnsw:space": "cosine"} # l2 is the default(persist_directory="vector_storage/resume_store")
     )
-    retriever_jd = chroma_jd.as_retriever(search_type = "similarity", search_kwargs = {"k":2})
+    retriever_jd = chroma_jd.as_retriever(search_type = "similarity", search_kwargs = {"k":1})
      # Cache the embeddings and timestamp
     st.session_state.resumeEmbeddings = retriever_jd
     st.session_state.resumeTimestamp = time.time()
@@ -192,24 +195,23 @@ def main():
     button = st.button("Submit")
     if button or "resume" in st.session_state and "input_text" in st.session_state:
         initialize_session_state_resume(st.session_state.input_text,st.session_state.resume)
+        for message in st.session_state.resume_history:
+                with st.chat_message(message.origin):
+                    st.markdown(message.message)  
         
         agree = st.checkbox("Access the Voice Assistant")
         if agree:
             #record audio input
             audio_bytes = audio_recorder(
                 pause_threshold=2.0, sample_rate=41_000,
-                text="Click",
+                text="",
                 recording_color="#fffff",
                 neutral_color="#6aa36f",
-                icon_name="user",
-                icon_size="4x",
+                icon_name="microphone-lines",
+                icon_size="3x",
                 )
-            for message in st.session_state.resume_history:
-                with st.chat_message(message.origin):
-                    st.markdown(message.message)
-  
             if audio_bytes:
-                audio_input = "audiofile.wav"
+                audio_input = "chatbot/audiofile.wav"
                 with open(audio_input,"wb") as f:
                     f.write(audio_bytes)
 
@@ -226,14 +228,14 @@ def main():
                     st.markdown(f"Bot: {bot_response}")
                     st.session_state.resume_history.append(Message(origin="ai", message=bot_response))
                 # convert text to speech
-                audio_output = "audiofileout.wav"
+                audio_output = "chatbot/audiofileout.wav"
                 text_to_speech(speech_file_path=audio_output,chat_format=bot_response)
                 st.audio(audio_output) 
         else:
         
-            for message in st.session_state.resume_history:
-                with st.chat_message(message.origin):
-                    st.markdown(message.message)
+            # for message in st.session_state.resume_history:
+            #     with st.chat_message(message.origin):
+            #         st.markdown(message.message)
 
             if user_input := st.chat_input("Chat with me!"):
                 # Display user message in chat message container
