@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white"/>
 <img src="https://img.shields.io/badge/conda-342B029.svg?&style=for-the-badge&logo=anaconda&logoColor=white"/>
 <img src="https://img.shields.io/badge/Jupyter-F37626.svg?&style=for-the-badge&logo=Jupyter&logoColor=white"/>
-"</p>
+</p>
 
 ![MIT License](https://img.shields.io/badge/License-MIT-lightgray.svg)
 ![build](https://img.shields.io/badge/Build-passing-green.svg)
@@ -36,7 +36,7 @@
    streamlit run app.py
    ```
 
-### Key Features
+### Key Features ⛓️‍💥
 Interview AI is a chatbot application which conducts virtual interview based on the job description and resume given by the user. This app also provide voice assistance feature. The bot will evaluate the performance of the user and give feedback.
 
 The core technologies are:<h4>Streamlit<br>
@@ -45,7 +45,7 @@ Langchain (AI agent framework integration)<br>
 </h4>
 
 
-### Detailed information
+### Detailed information ℹ️
 <p>
 Interview AI is an intelligent virtual assistant designed to conduct simulated job interviews tailored to specific positions and candidates' qualifications. By leveraging natural language processing and machine learning technologies, this innovative application facilitates a comprehensive interview experience for users.
 
