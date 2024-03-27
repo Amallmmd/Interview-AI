@@ -1,0 +1,18 @@
+streamlit
+langchain
+langchain-community
+langchain-openai
+openai
+python-dotenv
+# transformers
+chromadb==0.3.29
+# spacy
+faiss-cpu
+numpy
+pandas
+matplotlib
+PyPDF2
+pypdf
+nltk
+audio-recorder-streamlit
+google-api-python-client>=2.100.0
