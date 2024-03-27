@@ -45,7 +45,7 @@ Langchain (AI agent framework integration)<br>
 </h4>
 
 
-### Detailed information 
+### Detailed information
 <p>
 Interview AI is an intelligent virtual assistant designed to conduct simulated job interviews tailored to specific positions and candidates' qualifications. By leveraging natural language processing and machine learning technologies, this innovative application facilitates a comprehensive interview experience for users.
 
