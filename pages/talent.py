@@ -18,6 +18,7 @@ from prompts.prompts import Template
 import streamlit as st
 load_dotenv()
 @dataclass
+
 class Message:
     '''dataclass for keeping track of the messages'''
     origin: Literal["human", "ai"]
@@ -124,30 +125,32 @@ def main():
 
     input_text = st.text_area(label="Provide a brief description here", value=st.session_state.input_text)
     button = st.button("Submit")
+    try:
+        if button or input_text:
+            behaviour_test(input_text)
+            st.session_state.input_text = input_text
 
-    if button or input_text:
-        behaviour_test(input_text)
-        st.session_state.input_text = input_text
+            for message in st.session_state.b_history:
+                with st.chat_message(message.origin):
+                    st.markdown(message.message)
+            
+            
 
-        for message in st.session_state.b_history:
-            with st.chat_message(message.origin):
-                st.markdown(message.message)
-        
-        
+        if "conversation" in st.session_state:    
+            if user_input:= st.chat_input("Chat:"):
+                with st.chat_message("human"):
+                    st.markdown(user_input)
 
-    if "conversation" in st.session_state:    
-        if user_input:= st.chat_input("Chat:"):
-            with st.chat_message("human"):
-                st.markdown(user_input)
+                st.session_state.b_history.append(Message(origin="human", message=user_input))
+                bot_response = st.session_state.conversation.run(user_input)
 
-            st.session_state.b_history.append(Message(origin="human", message=user_input))
-            bot_response = st.session_state.conversation.run(user_input)
-
-            with st.chat_message("assistant"):
-                st.markdown(f"Bot: {bot_response}")
-            st.session_state.b_history.append(Message(origin="ai", message=bot_response))
-        if st.button("Show feedback"):
-            show_feedback()
+                with st.chat_message("assistant"):
+                    st.markdown(f"Bot: {bot_response}")
+                st.session_state.b_history.append(Message(origin="ai", message=bot_response))
+            if st.button("Show feedback"):
+                show_feedback()
+    except IndexError:
+        pass
 
 if __name__ == "__main__":
     main()

@@ -21,6 +21,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = OpenAI()
+# api_key = os.getenv("OPENAI_API_KEY")
 api_key = st.secrets['OPENAI_API_KEY']
 
 def speech_to_text(audiofile):
@@ -193,72 +194,78 @@ def main():
 
     # Submit button to start the interview simulation
     button = st.button("Submit")
-    if button or "resume" in st.session_state and "input_text" in st.session_state:
-        initialize_session_state_resume(st.session_state.input_text,st.session_state.resume)
-        for message in st.session_state.resume_history:
-                with st.chat_message(message.origin):
-                    st.markdown(message.message)  
-        
-        agree = st.checkbox("Access the Voice Assistant")
-        if agree:
-            #record audio input
-            audio_bytes = audio_recorder(
-                pause_threshold=2.0, sample_rate=41_000,
-                text="",
-                recording_color="#fffff",
-                neutral_color="#6aa36f",
-                icon_name="microphone-lines",
-                icon_size="3x",
-                )
-            if audio_bytes:
-                audio_input = "chatbot/audiofile.wav"
-                with open(audio_input,"wb") as f:
-                    f.write(audio_bytes)
+    try:
+        if button or "resume" in st.session_state and "input_text" in st.session_state:
+            initialize_session_state_resume(st.session_state.input_text,st.session_state.resume)
+            for message in st.session_state.resume_history:
+                    with st.chat_message(message.origin):
+                        st.markdown(message.message)  
+            
+            agree = st.checkbox("Access the Voice Assistant")
+            if agree:
+                #record audio input
+                audio_bytes = audio_recorder(
+                    pause_threshold=2.0, sample_rate=41_000,
+                    text="",
+                    recording_color="#fffff",
+                    neutral_color="#6aa36f",
+                    icon_name="microphone-lines",
+                    icon_size="3x",
+                    )
+                if audio_bytes:
+                    audio_input = "chatbot/audiofile.wav"
+                    with open(audio_input,"wb") as f:
+                        f.write(audio_bytes)
 
-                #convert speech to text
-                user_input = speech_to_text(audio_input)
-                with st.chat_message("human"):
-                    st.markdown(user_input)
+                    #convert speech to text
+                    user_input = speech_to_text(audio_input)
+                    with st.chat_message("human"):
+                        st.markdown(user_input)
+                        st.session_state.resume_history.append(Message(origin="human", message=user_input))
+                        st.session_state.token_count += len(user_input.split())
+                    st.audio(audio_bytes, format="audio/wav")
+                    # generate bot response
+                    bot_response = st.session_state.resume_screen.run(user_input)
+                    with st.chat_message("assistant"):
+                        st.markdown(f"Bot: {bot_response}")
+                        st.session_state.resume_history.append(Message(origin="ai", message=bot_response))
+                    # convert text to speech
+                    audio_output = "chatbot/audiofileout.wav"
+                    text_to_speech(speech_file_path=audio_output,chat_format=bot_response)
+                    st.audio(audio_output) 
+            else:
+            
+                # for message in st.session_state.resume_history:
+                #     with st.chat_message(message.origin):
+                #         st.markdown(message.message)
+
+                if user_input := st.chat_input("Chat with me!"):
+                    # Display user message in chat message container
+                    with st.chat_message("human"):
+                        st.markdown(user_input)
+                    # Add user message to chat history
                     st.session_state.resume_history.append(Message(origin="human", message=user_input))
                     st.session_state.token_count += len(user_input.split())
-                st.audio(audio_bytes, format="audio/wav")
-                # generate bot response
-                bot_response = st.session_state.resume_screen.run(user_input)
-                with st.chat_message("assistant"):
-                    st.markdown(f"Bot: {bot_response}")
+
+                    # Generate bot response
+                    bot_response = st.session_state.resume_screen.run(user_input)
+
+                    # Display assistant response in chat message container
+                    with st.chat_message("assistant"):
+                        st.markdown(f"Bot: {bot_response}")
+                    
+                    # Add assistant response to chat history
                     st.session_state.resume_history.append(Message(origin="ai", message=bot_response))
-                # convert text to speech
-                audio_output = "chatbot/audiofileout.wav"
-                text_to_speech(speech_file_path=audio_output,chat_format=bot_response)
-                st.audio(audio_output) 
+    
+
         else:
-        
-            # for message in st.session_state.resume_history:
-            #     with st.chat_message(message.origin):
-            #         st.markdown(message.message)
-
-            if user_input := st.chat_input("Chat with me!"):
-                # Display user message in chat message container
-                with st.chat_message("human"):
-                    st.markdown(user_input)
-                # Add user message to chat history
-                st.session_state.resume_history.append(Message(origin="human", message=user_input))
-                st.session_state.token_count += len(user_input.split())
-
-                # Generate bot response
-                bot_response = st.session_state.resume_screen.run(user_input)
-
-                # Display assistant response in chat message container
-                with st.chat_message("assistant"):
-                    st.markdown(f"Bot: {bot_response}")
-                
-                # Add assistant response to chat history
-                st.session_state.resume_history.append(Message(origin="ai", message=bot_response))
-
-    else:
-        st.warning("Please upload your resume and provide a job description before submitting.")
+            st.warning("Please upload your resume and provide a job description before submitting.")
+    except AttributeError:
+        # raise "Please upload before "
+        pass
     if st.button("Show feedback"):
         show_feedback()
 # call the function
 if __name__ == "__main__":
     main()
+
