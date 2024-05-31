@@ -179,7 +179,7 @@ def show_feedback():
 
 # st.sidebar.success("Select a demo above.")
 st.set_page_config(page_title="AI-hr")
-st.title("Intelligent HR")
+st.title("Interview AI")
 def main():
     
     job_desc = st.text_area("Provide a brief description here", value=st.session_state.input_text if "input_text" in st.session_state else "")
