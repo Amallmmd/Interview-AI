@@ -120,22 +120,22 @@ def initialize_session_state_resume(input_text,resume):
         st.session_state.token_count = 0
     # memory buffer for resume screen
     if "resume_memory" not in st.session_state:
-        st.session_state.resume_memory = ConversationBufferMemory(human_prefix = "Candidate: ", ai_prefix = "Interviewer")
+        st.session_state.resume_memory = ConversationBufferMemory()
     #guideline for resume screen
     if "resume_guideline" not in st.session_state:
         llm = ChatOpenAI(
-        model_name = "gpt-3.5-turbo",
+        model_name = "gpt-4o",
         temperature = 0.5,)
         st.session_state.resume_guideline = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type_kwargs=st.session_state.job_chain_type_kwargs,
             chain_type='stuff',
             retriever=st.session_state.merger, 
-            memory = st.session_state.resume_memory).run("Create an interview guideline and prepare only two questions for each topic. Make sure the questions tests the knowledge")
+            memory = st.session_state.resume_memory).invoke("Create an interview guideline and prepare only two questions for each topic. Make sure the questions tests the knowledge")
     # llm chain for resume screen
     if "resume_screen" not in st.session_state:
         llm = ChatOpenAI(
-            model_name="gpt-3.5-turbo",
+            model_name="gpt-4o",
             temperature=0.7, )
         PROMPT = PromptTemplate(
             input_variables=["history", "input"],
@@ -161,7 +161,7 @@ def initialize_session_state_resume(input_text,resume):
         st.session_state.resume_screen = ConversationChain(prompt=PROMPT, llm = llm, memory = st.session_state.resume_memory)
     if "feedback" not in st.session_state:
         llm = ChatOpenAI(
-        model_name = "gpt-3.5-turbo",
+        model_name = "gpt-4o",
         temperature = 0.5,)
         st.session_state.feedback = ConversationChain(
             prompt=PromptTemplate(input_variables = ["history", "input"], template = Template.feedback_template),
@@ -171,7 +171,7 @@ def initialize_session_state_resume(input_text,resume):
 # function to define the feedback of the interview
 def show_feedback():
     if "feedback" in st.session_state:
-        feedback_response = st.session_state.feedback.run(
+        feedback_response = st.session_state.feedback.invoke(
             "please give evalution regarding the interview"
         )
         with st.expander("Evaluation"):
